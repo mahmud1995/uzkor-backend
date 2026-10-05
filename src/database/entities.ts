@@ -1,0 +1,286 @@
+import { EntitySchema } from "@mikro-orm/core";
+export const Users = new EntitySchema({
+  name: "Users",
+  tableName: "users",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    email: { type: "string", columnType: "text" },
+    password_hash: { type: "string", columnType: "text", nullable: true },
+    display_name: { type: "string", columnType: "text" },
+    phone: { type: "string", columnType: "text", nullable: true },
+    role: { type: "string", columnType: "text" },
+    status: { type: "string", columnType: "text" },
+    email_verified_at: {
+      type: "Date",
+      columnType: "timestamptz",
+      nullable: true,
+    },
+    created_at: { type: "Date", columnType: "timestamptz" },
+    updated_at: { type: "Date", columnType: "timestamptz" },
+  },
+});
+export const Categories = new EntitySchema({
+  name: "Categories",
+  tableName: "categories",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    parent_id: { type: "string", columnType: "uuid", nullable: true },
+    code: { type: "string", columnType: "text" },
+    slug: { type: "string", columnType: "text" },
+    name_ko: { type: "string", columnType: "text" },
+    name_en: { type: "string", columnType: "text" },
+    sort_order: { type: "number", columnType: "integer" },
+    is_active: { type: "boolean", columnType: "boolean" },
+    created_at: { type: "Date", columnType: "timestamptz" },
+  },
+});
+export const Products = new EntitySchema({
+  name: "Products",
+  tableName: "products",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    slug: { type: "string", columnType: "text" },
+    category_id: { type: "string", columnType: "uuid" },
+    title: { type: "string", columnType: "text" },
+    subtitle: { type: "string", columnType: "text", nullable: true },
+    description: { type: "string", columnType: "text" },
+    brand_name: { type: "string", columnType: "text", nullable: true },
+    specifications: { type: "json", columnType: "jsonb" },
+    status: { type: "string", columnType: "text" },
+    is_adult_content: { type: "boolean", columnType: "boolean" },
+    created_by: { type: "string", columnType: "uuid", nullable: true },
+    updated_by: { type: "string", columnType: "uuid", nullable: true },
+    created_at: { type: "Date", columnType: "timestamptz" },
+    updated_at: { type: "Date", columnType: "timestamptz" },
+  },
+});
+export const ProductImages = new EntitySchema({
+  name: "ProductImages",
+  tableName: "product_images",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    product_id: { type: "string", columnType: "uuid" },
+    image_url: { type: "string", columnType: "text" },
+    alt_text: { type: "string", columnType: "text", nullable: true },
+    position: { type: "number", columnType: "integer" },
+    is_cover: { type: "boolean", columnType: "boolean" },
+  },
+});
+export const ProductVariants = new EntitySchema({
+  name: "ProductVariants",
+  tableName: "product_variants",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    product_id: { type: "string", columnType: "uuid" },
+    sku: { type: "string", columnType: "text" },
+    option_values: { type: "json", columnType: "jsonb" },
+    is_active: { type: "boolean", columnType: "boolean" },
+    created_at: { type: "Date", columnType: "timestamptz" },
+  },
+});
+export const Launches = new EntitySchema({
+  name: "Launches",
+  tableName: "launches",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    product_id: { type: "string", columnType: "uuid" },
+    title_override: { type: "string", columnType: "text", nullable: true },
+    summary: { type: "string", columnType: "text", nullable: true },
+    state: { type: "string", columnType: "text" },
+    published_at: { type: "Date", columnType: "timestamptz", nullable: true },
+    reservation_opens_at: { type: "Date", columnType: "timestamptz" },
+    reservation_closes_at: { type: "Date", columnType: "timestamptz" },
+    sale_opens_at: { type: "Date", columnType: "timestamptz" },
+    early_access_ends_at: { type: "Date", columnType: "timestamptz" },
+    sale_ends_at: { type: "Date", columnType: "timestamptz" },
+    created_by: { type: "string", columnType: "uuid", nullable: true },
+    created_at: { type: "Date", columnType: "timestamptz" },
+    updated_at: { type: "Date", columnType: "timestamptz" },
+  },
+});
+export const LaunchVariants = new EntitySchema({
+  name: "LaunchVariants",
+  tableName: "launch_variants",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    launch_id: { type: "string", columnType: "uuid" },
+    product_id: { type: "string", columnType: "uuid" },
+    variant_id: { type: "string", columnType: "uuid" },
+    price_minor: { type: "string", columnType: "bigint" },
+    currency: { type: "string", columnType: "char(3)" },
+    total_units: { type: "number", columnType: "integer" },
+    reserved_units: { type: "number", columnType: "integer" },
+    checkout_held_units: { type: "number", columnType: "integer" },
+    sold_units: { type: "number", columnType: "integer" },
+    per_customer_limit: { type: "number", columnType: "integer" },
+    created_at: { type: "Date", columnType: "timestamptz" },
+  },
+});
+export const Reservations = new EntitySchema({
+  name: "Reservations",
+  tableName: "reservations",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    user_id: { type: "string", columnType: "uuid" },
+    launch_variant_id: { type: "string", columnType: "uuid" },
+    status: { type: "string", columnType: "text" },
+    reserved_at: { type: "Date", columnType: "timestamptz" },
+    converted_at: { type: "Date", columnType: "timestamptz", nullable: true },
+    updated_at: { type: "Date", columnType: "timestamptz" },
+  },
+});
+export const Orders = new EntitySchema({
+  name: "Orders",
+  tableName: "orders",
+  properties: {
+    checkout_key: { type: "string", columnType: "uuid", nullable: true },
+    request_fingerprint: { type: "string", nullable: true },
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    order_number: { type: "string", columnType: "text" },
+    user_id: { type: "string", columnType: "uuid" },
+    status: { type: "string", columnType: "text" },
+    currency: { type: "string", columnType: "char(3)" },
+    subtotal_minor: { type: "string", columnType: "bigint" },
+    shipping_minor: { type: "string", columnType: "bigint" },
+    total_minor: { type: "string", columnType: "bigint" },
+    shipping_address: { type: "json", columnType: "jsonb" },
+    payment_expires_at: { type: "Date", columnType: "timestamptz" },
+    placed_at: { type: "Date", columnType: "timestamptz" },
+    paid_at: { type: "Date", columnType: "timestamptz", nullable: true },
+  },
+});
+export const OrderItems = new EntitySchema({
+  name: "OrderItems",
+  tableName: "order_items",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    order_id: { type: "string", columnType: "uuid" },
+    launch_variant_id: { type: "string", columnType: "uuid" },
+    reservation_id: { type: "string", columnType: "uuid", nullable: true },
+    product_title_snapshot: { type: "string", columnType: "text" },
+    sku_snapshot: { type: "string", columnType: "text" },
+    option_values_snapshot: { type: "json", columnType: "jsonb" },
+    quantity: { type: "number", columnType: "integer" },
+    unit_price_minor: { type: "string", columnType: "bigint" },
+    line_total_minor: { type: "string", columnType: "bigint" },
+  },
+});
+export const Payments = new EntitySchema({
+  name: "Payments",
+  tableName: "payments",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    order_id: { type: "string", columnType: "uuid" },
+    provider: { type: "string", columnType: "text" },
+    provider_payment_id: { type: "string", columnType: "text", nullable: true },
+    idempotency_key: { type: "string", columnType: "text" },
+    status: { type: "string", columnType: "text" },
+    amount_minor: { type: "string", columnType: "bigint" },
+    created_at: { type: "Date", columnType: "timestamptz" },
+    updated_at: { type: "Date", columnType: "timestamptz" },
+  },
+});
+export const PaymentReconciliations = new EntitySchema({
+  name: "PaymentReconciliations",
+  tableName: "payment_reconciliations",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    payment_id: { type: "string", columnType: "uuid" },
+    reason: { type: "string" },
+    status: { type: "string" },
+    created_at: { type: "Date", columnType: "timestamptz" },
+  },
+});
+export const NotificationOutbox = new EntitySchema({
+  name: "NotificationOutbox",
+  tableName: "notification_outbox",
+  properties: {
+    id: {
+      type: "string",
+      columnType: "uuid",
+      primary: true,
+      defaultRaw: "gen_random_uuid()",
+    },
+    user_id: { type: "string", columnType: "uuid" },
+    dedupe_key: { type: "string" },
+    kind: { type: "string" },
+    payload: { type: "json", columnType: "jsonb" },
+    created_at: { type: "Date", columnType: "timestamptz" },
+    delivered_at: { type: "Date", columnType: "timestamptz", nullable: true },
+  },
+});
+export const entities = [
+  PaymentReconciliations,
+  NotificationOutbox,
+  Users,
+  Categories,
+  Products,
+  ProductImages,
+  ProductVariants,
+  Launches,
+  LaunchVariants,
+  Reservations,
+  Orders,
+  OrderItems,
+  Payments,
+];
